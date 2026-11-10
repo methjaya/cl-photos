@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>CL Randoms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2 0 3.6 1.1 5.4 3.2 1.8-2.1 3.4-3.2 5.4-3.2 3.6 0 5.7 3.7 4.2 7.2C19.500 16.400 12 21 12 21z" fill="currentColor"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+  <symbol id="i-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="i-r" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.500v14H7zM13.500 5H17v14h-3.500z" fill="currentColor"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+</svg>
+
+<div class="glow" id="glow" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top" style="text-decoration:none;color:inherit"><span class="dot"></span>CL Randoms</a>
+    <div class="nav-r">
+      <a class="navlink" href="#album">Album</a>
+      <button class="pill" id="navSurprise" type="button">Surprise me</button>
+    </div>
+  </div>
+  <div class="progress" id="scrollbar"></div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1>CL Randoms</h1>
+    <p class="sub">Unposed moments from around the office.</p>
+    <div class="cta">
+      <a class="btn primary" href="#album">Open the album</a>
+      <button class="btn ghost" id="heroSurprise" type="button">Surprise me</button>
+    </div>
+    <div class="fan" id="fan" aria-label="A few random photos"></div>
+    <p class="hint">Move your mouse over the stack. Press <kbd>R</kbd> anywhere for a random photo.</p>
+  </div>
+</header>
+
+<main>
+<section class="album" id="album">
+  <div class="wrap">
+    <div class="album-head">
+      <div>
+        <h2>A Random Day @CL</h2>
+        <p class="meta">10 Nov 2026 &middot; <span id="count">30 photos</span></p>
+      </div>
+      <div class="tools">
+        <div class="seg" role="group" aria-label="Layout" id="seg">
+          <span class="thumb" id="segThumb"></span>
+          <button type="button" data-v="mosaic" aria-pressed="true">Mosaic</button>
+          <button type="button" data-v="grid" aria-pressed="false">Grid</button>
+          <button type="button" data-v="scatter" aria-pressed="false">Scatter</button>
+        </div>
+        <button class="chip" id="shuffle" type="button">Shuffle</button>
+        <button class="chip" id="favBtn" type="button" aria-pressed="false"><svg><use href="#i-heart"/></svg><span id="favN">Favorites</span></button>
+        <button class="chip" id="slide" type="button"><svg><use href="#i-play"/></svg>Slideshow</button>
+      </div>
+    </div>
+    <div class="gallery" id="gallery"></div>
+
+    <div class="next">
+      <div><b>The next random day</b><span>Another album goes here when the office does something worth keeping.</span></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="wrap"><span>CL Randoms</span><span>Hearts are saved on this device only.</span></div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lb-bar" id="lbBar"></div>
+  <div class="lb-top">
+    <div class="lb-count" id="lbCount"></div>
+    <div class="lb-btns">
+      <button class="ib fav" id="lbFav" type="button" aria-label="Favorite" aria-pressed="false"><svg><use href="#i-heart"/></svg></button>
+      <button class="ib" id="lbPlay" type="button" aria-label="Play slideshow"><svg><use href="#i-play"/></svg></button>
+      <button class="ib" id="lbFull" type="button" aria-label="Full screen"><svg><use href="#i-full"/></svg></button>
+      <button class="ib" id="lbClose" type="button" aria-label="Close"><svg><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <button class="nv l" id="lbPrev" type="button" aria-label="Previous photo"><svg><use href="#i-l"/></svg></button>
+    <img id="lbImg" alt="">
+    <button class="nv r" id="lbNext" type="button" aria-label="Next photo"><svg><use href="#i-r"/></svg></button>
+  </div>
+  <div class="strip" id="strip"></div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
