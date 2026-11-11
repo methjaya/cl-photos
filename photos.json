@@ -278,5 +278,37 @@
   "h": 1800,
   "portrait": true,
   "turned": true
+ },
+ {
+  "id": "p36",
+  "src": "New/IMG_0001",
+  "w": 1800,
+  "h": 1200,
+  "portrait": false,
+  "turned": false
+ },
+ {
+  "id": "p37",
+  "src": "New/IMG_0002",
+  "w": 1800,
+  "h": 1200,
+  "portrait": false,
+  "turned": false
+ },
+ {
+  "id": "p38",
+  "src": "New/IMG_0003",
+  "w": 1800,
+  "h": 1200,
+  "portrait": false,
+  "turned": false
+ },
+ {
+  "id": "p39",
+  "src": "New/IMG_0010",
+  "w": 1200,
+  "h": 1800,
+  "portrait": true,
+  "turned": true
  }
 ]
