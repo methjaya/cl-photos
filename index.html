@@ -16,6 +16,8 @@
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
   <symbol id="i-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
   <symbol id="i-r" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="i-rotl" viewBox="0 0 24 24"><path d="M4 9V4M4 9h5M4.500 9a8 8 0 1 1-1 5.500" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+  <symbol id="i-rotr" viewBox="0 0 24 24"><path d="M20 9V4M20 9h-5M19.500 9a8 8 0 1 0 1 5.500" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
   <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.500v14H7zM13.500 5H17v14h-3.500z" fill="currentColor"/></symbol>
   <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
@@ -82,6 +84,8 @@
   <div class="lb-top">
     <div class="lb-count" id="lbCount"></div>
     <div class="lb-btns">
+      <button class="ib" id="lbRotL" type="button" aria-label="Rotate left" title="Rotate left (Shift+R)"><svg><use href="#i-rotl"/></svg></button>
+      <button class="ib" id="lbRotR" type="button" aria-label="Rotate right" title="Rotate right (R)"><svg><use href="#i-rotr"/></svg></button>
       <button class="ib fav" id="lbFav" type="button" aria-label="Favorite" aria-pressed="false"><svg><use href="#i-heart"/></svg></button>
       <button class="ib" id="lbPlay" type="button" aria-label="Play slideshow"><svg><use href="#i-play"/></svg></button>
       <button class="ib" id="lbFull" type="button" aria-label="Full screen"><svg><use href="#i-full"/></svg></button>

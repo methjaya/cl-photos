@@ -1,31 +1,40 @@
 (function(){
-  var N = 30;
+  /* One row per photo: [number, width, height] of the file in img/ (already turned upright).
+     To add a photo, drop pNN.jpg into img/ and thumb/ and add a row here. */
+  var PHOTOS = [[1,1800,1200],[2,1800,1200],[3,1800,1200],[4,1800,1200],[5,1800,1200],[6,1800,1200],[7,1800,1200],[8,1800,1200],[9,1800,1200],[10,1800,1200],[11,1800,1200],[12,1800,1200],[13,1800,1200],[14,1800,1200],[15,1800,1200],[16,1800,1200],[17,1800,1200],[18,1800,1200],[19,1800,1200],[20,1800,1200],[21,1800,1200],[22,1800,1200],[23,1800,1200],[24,1800,1200],[25,1800,1200],[26,1200,1800],[27,1200,1800],[28,1800,1200],[29,1800,1200],[30,1800,1200],[31,1800,1200],[32,1800,1200],[33,1200,1800],[34,1200,1800],[35,1200,1800]];
+  var N = PHOTOS.length;
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function $(s){ return document.querySelector(s); }
-  var photos = [];
-  for (var k = 0; k < N; k++) photos.push({ i: k, id: 'p' + pad(k + 1), n: k + 1 });
+  var photos = PHOTOS.map(function(p, k){
+    return { i: k, id: 'p' + pad(p[0]), n: p[0], w: p[1], h: p[2], tall: p[2] > p[1] };
+  });
   var thumb = function(i){ return 'thumb/' + photos[i].id + '.jpg'; };
   var full = function(i){ return 'img/' + photos[i].id + '.jpg'; };
 
   var order = photos.map(function(p){ return p.i; });
   var view = 'mosaic', onlyFav = false, shuffled = false;
-  var favs = new Set();
-  try { favs = new Set(JSON.parse(localStorage.getItem('clr-favs') || '[]')); } catch(e) {}
-  function saveFavs(){ try { localStorage.setItem('clr-favs', JSON.stringify(Array.from(favs))); } catch(e) {} }
+  var favs = new Set();   // holds photo ids like "p07", so favorites survive adding more photos
+  try { favs = new Set(JSON.parse(localStorage.getItem('clr-favs2') || '[]')); } catch(e) {}
+  function saveFavs(){ try { localStorage.setItem('clr-favs2', JSON.stringify(Array.from(favs))); } catch(e) {} }
+  function isFav(i){ return favs.has(photos[i].id); }
+  var rots = {};          // rotation in degrees per photo id, chosen in the viewer
+  try { rots = JSON.parse(localStorage.getItem('clr-rot') || '{}') || {}; } catch(e) {}
+  function saveRots(){ try { localStorage.setItem('clr-rot', JSON.stringify(rots)); } catch(e) {} }
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 
   var gal = $('#gallery');
-  function visible(){ return order.filter(function(i){ return !onlyFav || favs.has(i); }); }
+  function visible(){ return order.filter(function(i){ return !onlyFav || isFav(i); }); }
   function shuf(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
   var heartSvg = '<svg><use href="#i-heart"/></svg>';
 
   /* ---------- gallery ---------- */
   function tileHTML(i, pos){
-    var big = view === 'mosaic' && pos % 7 === 0;
+    var tall = photos[i].tall;
+    var big = view === 'mosaic' && !tall && pos % 7 === 0;
     var src = big ? full(i) : thumb(i);
-    var on = favs.has(i);
-    return '<figure class="tile' + (big ? ' big' : '') + '" data-i="' + i + '" style="--d:' + Math.min(pos, 18) + '">' +
+    var on = isFav(i);
+    return '<figure class="tile' + (big ? ' big' : '') + (tall ? ' tall' : '') + '" data-i="' + i + '" style="--d:' + Math.min(pos, 18) + '">' +
       '<div class="card" tabindex="0" role="button" aria-label="Open photo ' + photos[i].n + '">' +
       '<img src="' + src + '" alt="Office photo ' + photos[i].n + '" loading="lazy" draggable="false">' +
       '<button class="heart" type="button" aria-label="Favorite photo ' + photos[i].n + '" aria-pressed="' + on + '">' + heartSvg + '</button>' +
@@ -67,10 +76,13 @@
     var rows = Math.ceil(tiles.length / cols);
     gal.style.setProperty('--cw', cw + 'px');
     gal.style.setProperty('--ch', ch + 'px');
+    var tw = cw * 0.7, th = (tw - 16) * 1.5 + 8 + 38;
+    gal.style.setProperty('--tw', tw + 'px');
+    gal.style.setProperty('--th', th + 'px');
     gal.style.height = (rows * sy + ch * 0.4 + 30) + 'px';
     tiles.forEach(function(t, n){
       var c = n % cols, r = Math.floor(n / cols);
-      var x = Math.max(0, Math.min(W - cw, c * sx + rnd(-16, 16)));
+      var x = Math.max(0, Math.min(W - (t.classList.contains('tall') ? tw : cw), c * sx + rnd(-16, 16)));
       var y = Math.max(0, r * sy + rnd(-12, 12));
       t.style.left = x + 'px'; t.style.top = y + 'px';
       t.style.setProperty('--rot', rnd(-8, 8).toFixed(1) + 'deg');
@@ -136,8 +148,9 @@
   gal.addEventListener('pointerup', endDrag); gal.addEventListener('pointercancel', endDrag);
 
   function toggleFav(i, srcEl){
-    var on = !favs.has(i);
-    if (on) favs.add(i); else favs.delete(i);
+    var on = !isFav(i);
+    var fid = photos[i].id;
+    if (on) favs.add(fid); else favs.delete(fid);
     saveFavs();
     var tile = gal.querySelector('.tile[data-i="' + i + '"] .heart');
     if (tile) tile.setAttribute('aria-pressed', on);
@@ -191,7 +204,7 @@
 
   /* ---------- hero fan ---------- */
   var fan = $('#fan');
-  var picks = shuf(photos.map(function(p){ return p.i; })).slice(0, 5);
+  var picks = shuf(photos.filter(function(p){ return !p.tall; }).map(function(p){ return p.i; })).slice(0, 5);
   var pos = [[-92, 6, -9], [-46, -4, -4.5], [0, 0, 0], [46, -4, 4.5], [92, 6, 9]];
   fan.innerHTML = picks.map(function(i, k){
     return '<div class="fc" data-i="' + i + '" tabindex="0" role="button" aria-label="Open photo ' + photos[i].n + '" style="--x:' + pos[k][0] + ';--y:' + pos[k][1] + ';--r:' + pos[k][2] + 'deg;z-index:' + (k === 2 ? 5 : 4 - Math.abs(k - 2)) + '"><img src="' + thumb(i) + '" alt="Office photo ' + photos[i].n + '" draggable="false"></div>';
@@ -258,18 +271,39 @@
   function show(i, dir){
     cur = i;
     var k = list.indexOf(i);
+    img.classList.add('noanim');
     img.src = thumb(i);
     img.alt = 'Office photo ' + photos[i].n;
+    fit();
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ img.classList.remove('noanim'); }); });
     var big = new Image();
     big.onload = function(){ if (cur === i) img.src = big.src; };
     big.src = full(i);
     $('#lbCount').textContent = pad(k + 1) + ' / ' + pad(list.length) + '   No. ' + pad(photos[i].n);
-    $('#lbFav').setAttribute('aria-pressed', favs.has(i));
+    $('#lbFav').setAttribute('aria-pressed', isFav(i));
     strip.querySelectorAll('button').forEach(function(b, n){ b.setAttribute('aria-current', n === k); });
     var b = strip.children[k];
     if (b) strip.scrollTo({ left: b.offsetLeft - strip.clientWidth / 2 + b.offsetWidth / 2, behavior: reduce ? 'auto' : 'smooth' });
     if (dir && !reduce) img.animate([{ opacity: .2, transform: 'translateX(' + (dir * 60) + 'px) scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 360, easing: 'cubic-bezier(.2,.8,.2,1)' });
     if (playing) restartBar();
+  }
+  /* size the picture so it still fits the stage after a quarter turn, then apply the turn */
+  function fit(){
+    var p = photos[cur], r = rots[p.id] || 0;
+    var swap = Math.abs(Math.round(r / 90)) % 2 === 1;
+    var sw = stage.clientWidth - 32, sh = stage.clientHeight;
+    var vw = swap ? p.h : p.w, vh = swap ? p.w : p.h;
+    var s = Math.max(.05, Math.min(sw / vw, sh / vh, 1));
+    img.style.width = (p.w * s) + 'px';
+    img.style.height = (p.h * s) + 'px';
+    img.style.transform = 'rotate(' + r + 'deg)';
+    var on = (((r % 360) + 360) % 360) !== 0;
+    $('#lbRotL').classList.toggle('on', on); $('#lbRotR').classList.toggle('on', on);
+  }
+  function rotate(dir){
+    var id = photos[cur].id;
+    rots[id] = (rots[id] || 0) + dir * 90;
+    fit(); saveRots();
   }
   function step(d){
     var k = (list.indexOf(cur) + d + list.length) % list.length;
@@ -290,6 +324,9 @@
   $('#lbPrev').addEventListener('click', function(){ step(-1); if (playing) setPlay(true); });
   $('#lbNext').addEventListener('click', function(){ step(1); if (playing) setPlay(true); });
   $('#lbPlay').addEventListener('click', function(){ setPlay(!playing); });
+  $('#lbRotL').addEventListener('click', function(){ rotate(-1); });
+  $('#lbRotR').addEventListener('click', function(){ rotate(1); });
+  window.addEventListener('resize', function(){ if (lbOpen) fit(); });
   $('#lbFav').addEventListener('click', function(){ toggleFav(cur, this); });
   $('#lbFull').addEventListener('click', function(){
     try {
@@ -318,6 +355,8 @@
       else if (e.key === 'ArrowLeft'){ step(-1); if (playing) setPlay(true); }
       else if (e.key === ' ' && e.target.tagName !== 'BUTTON'){ e.preventDefault(); setPlay(!playing); }
       else if (e.key === 'h' || e.key === 'H') toggleFav(cur, $('#lbFav'));
+      else if (e.key === 'r') rotate(1);
+      else if (e.key === 'R') rotate(-1);
       else if (e.key === 'f' || e.key === 'F') $('#lbFull').click();
       else if (e.key === 'Tab'){
         var f = lb.querySelectorAll('button'); var first = f[0], last = f[f.length - 1];
