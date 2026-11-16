@@ -62,6 +62,12 @@ kbd{font:inherit;font-size:.78rem;padding:1px 7px;border-radius:6px;background:v
 .album{position:relative;z-index:1;padding-block:clamp(40px,7vw,80px) 72px;background:var(--bg2);border-radius:clamp(24px,4vw,44px) clamp(24px,4vw,44px) 0 0}
 .album-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 32px;margin-bottom:28px}
 .album-head h2{margin:0;font-size:clamp(2rem,5.5vw,3.6rem);letter-spacing:-.04em;line-height:1.05;font-weight:700;text-wrap:balance}
+.days-row{margin-bottom:26px}
+.days-row .seg button{padding:9px 22px;font-size:1rem;font-weight:600}
+.album-head.swap>div:first-child{animation:swapin .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes swapin{from{opacity:0;transform:translateY(10px)}}
+.tag{display:inline-block;margin-right:10px;padding:2px 10px;border-radius:980px;font-size:.78rem;font-weight:600;color:#fff;vertical-align:1px;background:linear-gradient(100deg,var(--g1),var(--g2) 55%,var(--g3))}
+.tag[hidden]{display:none}
 .meta{margin:8px 0 0;color:var(--fg2);font-size:1.05rem;font-variant-numeric:tabular-nums}
 .tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .seg{display:inline-flex;background:var(--line);border-radius:980px;padding:3px;position:relative}
@@ -80,6 +86,7 @@ kbd{font:inherit;font-size:.78rem;padding:1px 7px;border-radius:6px;background:v
 @keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
 .tile.big{grid-column:span 2;grid-row:span 2}
 .tile.tall{grid-row:span 2}
+.tile.tall3{grid-row:span 3}
 .card{position:absolute;inset:0;border-radius:clamp(12px,1.8vw,20px);overflow:hidden;background:var(--card);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.1);
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--s,1));transition:transform .25s ease-out,box-shadow .3s;transform-style:preserve-3d;will-change:transform}
 .card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1);user-select:none;-webkit-user-drag:none}
@@ -100,6 +107,7 @@ kbd{font:inherit;font-size:.78rem;padding:1px 7px;border-radius:6px;background:v
 /* scatter */
 .gallery.scatter{display:block;position:relative;overflow-x:clip}
 .scatter .tile.tall{width:var(--tw);height:var(--th)}
+.scatter .tile.tall3{width:var(--tw);height:var(--th3)}
 .scatter .tile{position:absolute;perspective:none;width:var(--cw);height:var(--ch);transform:rotate(var(--rot));touch-action:none;transition:box-shadow .3s}
 .scatter .card{background:#fff;padding:8px 8px 0;box-shadow:0 6px 22px rgba(0,0,0,.25);border-radius:6px;transform:none!important;cursor:grab}
 .scatter .card img{height:calc(100% - 38px);border-radius:3px}

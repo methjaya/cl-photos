@@ -52,10 +52,13 @@
 <main>
 <section class="album" id="album">
   <div class="wrap">
-    <div class="album-head">
+    <div class="days-row">
+      <div class="seg" role="group" aria-label="Choose a day" id="daySeg"></div>
+    </div>
+    <div class="album-head" id="albHead">
       <div>
-        <h2>A Random Day @CL</h2>
-        <p class="meta">10 Nov 2026 &middot; <span id="count">30 photos</span></p>
+        <h2 id="albTitle">Randoms</h2>
+        <p class="meta"><span class="tag" id="albTag">Latest</span><span id="albDate"></span> &middot; <span id="count"></span></p>
       </div>
       <div class="tools">
         <div class="seg" role="group" aria-label="Layout" id="seg">
@@ -100,6 +103,7 @@
   <div class="strip" id="strip"></div>
 </div>
 
+<script src="js/albums.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
