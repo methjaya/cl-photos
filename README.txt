@@ -15,7 +15,8 @@ DAYS
 
 DATE TAGS
   Every photo carries a small tag with the day it was taken (16 Nov / 10 Nov). The hero photo
-  stack shows random photos from both days, always including at least two from the newest day.
+  stack shows five random photos from both days (always at least two from the newest day), centered
+  and evenly spaced; on phones it shows three.
 
 VIEWER SHORTCUTS
   Left / Right    previous / next        Space   play or pause slideshow

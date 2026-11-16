@@ -261,9 +261,10 @@
   var others = ALL.filter(function(p){ return p.album !== ALBUMS[0]; });
   var picks = shuf(shuf(newest).slice(0, Math.min(2, newest.length)).concat(shuf(others).slice(0, 3)));
   if (picks.length < 5) picks = shuf(ALL).slice(0, 5);
-  var pos = [[-92, 6, -9], [-46, -4, -4.5], [0, 0, 0], [46, -4, 4.5], [92, 6, 9]];
+  var pos = [[16, -8], [6, -4], [0, 0], [6, 4], [16, 8]];   // [drop in % of card height, tilt in degrees]
   fan.innerHTML = picks.map(function(p, k){
-    return '<div class="fc' + (p.tall ? ' tallc' : '') + '" data-g="' + ALL.indexOf(p) + '" tabindex="0" role="button" aria-label="Open photo ' + p.n + ' from ' + p.album.date + '" style="--ar:' + (p.w / p.h).toFixed(3) + ';--x:' + pos[k][0] + ';--y:' + pos[k][1] + ';--r:' + pos[k][2] + 'deg;z-index:' + (k === 2 ? 5 : 4 - Math.abs(k - 2)) + '"><img src="' + p.thumb + '" alt="Office photo ' + p.n + '" draggable="false">' + dtag(p) + '</div>';
+    var ar = Math.max(0.66, p.w / p.h);     // every card has the same height; tall photos get a narrower card
+    return '<div class="fc' + (k > 2 ? ' rt' : '') + '" data-g="' + ALL.indexOf(p) + '" tabindex="0" role="button" aria-label="Open photo ' + p.n + ' from ' + p.album.date + '" style="--ar:' + ar.toFixed(3) + ';--y:' + pos[k][0] + ';--r:' + pos[k][1] + 'deg;z-index:' + (k === 2 ? 5 : 4 - Math.abs(k - 2) + 1) + '"><img src="' + p.thumb + '" alt="Office photo ' + p.n + '" draggable="false">' + dtag(p) + '</div>';
   }).join('');
   function fanOpen(c){ if (c) openPhoto(ALL[+c.dataset.g], c.querySelector('img')); }
   fan.addEventListener('click', function(e){ fanOpen(e.target.closest('.fc')); });
