@@ -1,16 +1,16 @@
 (function(){
   /* ALBUMS comes from js/albums.js: one entry per day, newest first.
-     Each photo row is [number, width, height] of img/<day>/pNN.jpg (already upright). */
+     Each photo row is [number, width, height, optional image extension] (already upright). */
   var ALBUMS = window.ALBUMS || [];
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function $(s){ return document.querySelector(s); }
   var ALL = [];
   ALBUMS.forEach(function(a){
     a.list = a.photos.map(function(p, k){
-      var id = 'p' + pad(p[0]), ratio = p[1] / p[2];
+      var id = 'p' + pad(p[0]), ratio = p[1] / p[2], ext = p[3] || 'jpg';
       var ph = { i: k, id: id, n: p[0], w: p[1], h: p[2], album: a, key: a.key + '/' + id,
                  tall: p[2] > p[1], tall3: ratio < 0.55,
-                 img: 'img/' + a.key + '/' + id + '.jpg', thumb: 'thumb/' + a.key + '/' + id + '.jpg' };
+                 img: 'img/' + a.key + '/' + id + '.' + ext, thumb: 'thumb/' + a.key + '/' + id + '.jpg' };
       ALL.push(ph); return ph;
     });
   });

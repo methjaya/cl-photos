@@ -27,12 +27,13 @@ Hearts and rotations are remembered on the device that made them.
 
 ADDING A NEW DAY
 1. Make folders img/2026-11-20/ and thumb/2026-11-20/ and put photos in them as p01.jpg, p02.jpg ...
-   (full size up to about 1800px on the long side, thumbnails about 700px). Turn each photo the
-   right way up first.
+   (full size up to about 1800px on the long side, thumbnails about 700px). Full-size .jpeg files
+   are also supported when specified in the album entry. Turn each photo the right way up first.
 2. In js/albums.js add a new block at the TOP of the list (newest first):
    { "key": "2026-11-20", "short": "20 Nov", "date": "20 Nov 2026", "title": "Randoms",
      "photos": [ [1, 1800, 1200], [2, 1200, 1800] ] }
-   Each photo row is [number, width, height] of its img file.
+   Each photo row is [number, width, height] of its img file; add a fourth value "jpeg" when the
+   full-size filename ends in .jpeg. Thumbnail filenames stay .jpg.
 3. The first day in the list is shown first and gets the "Latest" tag.
 
 NOTES ON THE PHOTOS

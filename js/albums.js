@@ -1,4 +1,4 @@
-/* One entry per day, newest first. photos = [number, width, height] for img/<day>/pNN.jpg.
+/* One entry per day, newest first. photos = [number, width, height, optional image extension].
    Generated from the photo folders; edit title/date/short by hand if you like. */
 window.ALBUMS = [
  {
@@ -6,7 +6,7 @@ window.ALBUMS = [
   "short": "16 Nov",
   "date": "16 Nov 2026",
   "title": "Randoms",
-  "photos": [ [  1,  739,  1600 ], [  2,  739,  1600 ], [  3,  739,  1600 ], [  4,  739,  1450 ], [  5,  739,  1314 ], [  6,  739,  1314 ], [  7,  739,  1314 ], [  8,  739,  1476 ], [  9,  739,  1600 ], [  10,  739,  1600 ], [  11,  739,  1600 ], [  12,  739,  1600 ], [  13,  739,  1314 ], [  14,  739,  1314 ], [  15,  739,  1600 ], [  16,  739,  1600 ], [  17,  739,  654 ] ]
+  "photos": [ [  1,  739,  1600 ], [  2,  739,  1600 ], [  3,  739,  1600 ], [  4,  739,  1450 ], [  5,  739,  1314 ], [  6,  739,  1314 ], [  7,  739,  1314 ], [  8,  739,  1476 ], [  9,  739,  1600 ], [  10,  739,  1600 ], [  11,  739,  1600 ], [  12,  739,  1600 ], [  13,  739,  1314 ], [  14,  739,  1314 ], [  15,  739,  1600 ], [  16,  739,  1600 ], [  17,  739,  654 ], [  18,  900,  1600, "jpeg" ] ]
  },
  {
   "key": "2026-11-10",
