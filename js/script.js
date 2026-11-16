@@ -15,6 +15,9 @@
     });
   });
 
+  var DAYCOL = ['var(--g2)', 'var(--g4)', 'var(--g1)', 'var(--g3)'];   // dot colour of each day's tag
+  function dtag(p){ return '<span class="dtag" style="--dc:' + DAYCOL[ALBUMS.indexOf(p.album) % DAYCOL.length] + '">' + p.album.short + '</span>'; }
+
   var A = 0;                                  // index of the day on show (0 = newest)
   var photos = ALBUMS[0].list;                // photos of that day
   var N = photos.length;
@@ -51,7 +54,7 @@
     var on = isFav(i);
     return '<figure class="' + cls + '" data-i="' + i + '" style="--d:' + Math.min(pos, 18) + '">' +
       '<div class="card" tabindex="0" role="button" aria-label="Open photo ' + p.n + '">' +
-      '<img src="' + src + '" alt="Office photo ' + p.n + ' from ' + p.album.date + '" loading="lazy" draggable="false">' +
+      '<img src="' + src + '" alt="Office photo ' + p.n + ' from ' + p.album.date + '" loading="lazy" draggable="false">' + dtag(p) +
       '<button class="heart" type="button" aria-label="Favorite photo ' + p.n + '" aria-pressed="' + on + '">' + heartSvg + '</button>' +
       '<span class="no">No. ' + pad(p.n) + '</span></div></figure>';
   }
@@ -253,11 +256,14 @@
 
   /* ---------- hero fan ---------- */
   var fan = $('#fan');
-  var pool = ALL.filter(function(p){ return !p.tall; }); if (pool.length < 5) pool = ALL;
-  var picks = shuf(pool).slice(0, 5);
+  /* 5 random photos from every day; at least 2 always come from the newest day */
+  var newest = ALL.filter(function(p){ return p.album === ALBUMS[0]; });
+  var others = ALL.filter(function(p){ return p.album !== ALBUMS[0]; });
+  var picks = shuf(shuf(newest).slice(0, Math.min(2, newest.length)).concat(shuf(others).slice(0, 3)));
+  if (picks.length < 5) picks = shuf(ALL).slice(0, 5);
   var pos = [[-92, 6, -9], [-46, -4, -4.5], [0, 0, 0], [46, -4, 4.5], [92, 6, 9]];
   fan.innerHTML = picks.map(function(p, k){
-    return '<div class="fc" data-g="' + ALL.indexOf(p) + '" tabindex="0" role="button" aria-label="Open photo ' + p.n + ' from ' + p.album.date + '" style="--x:' + pos[k][0] + ';--y:' + pos[k][1] + ';--r:' + pos[k][2] + 'deg;z-index:' + (k === 2 ? 5 : 4 - Math.abs(k - 2)) + '"><img src="' + p.thumb + '" alt="Office photo ' + p.n + '" draggable="false"></div>';
+    return '<div class="fc' + (p.tall ? ' tallc' : '') + '" data-g="' + ALL.indexOf(p) + '" tabindex="0" role="button" aria-label="Open photo ' + p.n + ' from ' + p.album.date + '" style="--ar:' + (p.w / p.h).toFixed(3) + ';--x:' + pos[k][0] + ';--y:' + pos[k][1] + ';--r:' + pos[k][2] + 'deg;z-index:' + (k === 2 ? 5 : 4 - Math.abs(k - 2)) + '"><img src="' + p.thumb + '" alt="Office photo ' + p.n + '" draggable="false">' + dtag(p) + '</div>';
   }).join('');
   function fanOpen(c){ if (c) openPhoto(ALL[+c.dataset.g], c.querySelector('img')); }
   fan.addEventListener('click', function(e){ fanOpen(e.target.closest('.fc')); });

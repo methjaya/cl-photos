@@ -13,6 +13,10 @@ DAYS
   16 Nov 2026  "Randoms"          17 photos   (shown first, tagged Latest)
   10 Nov 2026  "A Random Day @CL" 39 photos
 
+DATE TAGS
+  Every photo carries a small tag with the day it was taken (16 Nov / 10 Nov). The hero photo
+  stack shows random photos from both days, always including at least two from the newest day.
+
 VIEWER SHORTCUTS
   Left / Right    previous / next        Space   play or pause slideshow
   R               rotate right           Shift+R rotate left
@@ -32,7 +36,8 @@ ADDING A NEW DAY
 
 NOTES ON THE PHOTOS
 - 16 Nov photos are phone screen recordings (739 x 1600). They are kept at their original size,
-  never enlarged. Solid black bars from the recording were trimmed off.
+  never enlarged. Solid black bars from the recording were trimmed off. The Snapchat screenshot (p17) was cut down to
+  just the camera view, with the status bar, lens bar, menu and corner buttons removed.
 - 10 Nov: p26, p27, p33, p34, p35, p39 were shot sideways and turned upright. On the first five the
   "A Random Day @CL" badge was redrawn at the bottom so it reads the right way round. p36 to p39
   have no badge.
